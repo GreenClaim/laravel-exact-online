@@ -1,6 +1,6 @@
 <?php
 
-namespace PendoNL\LaravelExactOnline;
+namespace Yource\LaravelExactOnline;
 
 use Illuminate\Support\Facades\Facade;
 

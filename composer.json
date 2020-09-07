@@ -1,5 +1,5 @@
 {
-    "name": "GreenClaim/laravel-exact-online",
+    "name": "greenclaim/laravel-exact-online",
     "description": "Laravel Facade wrapper for Exact Online PHP API",
     "require": {
         "picqer/exact-php-client": "^3.1"
@@ -18,21 +18,21 @@
     ],
     "autoload": {
         "psr-4": {
-            "GreenClaim\\LaravelExactOnline\\": "src/"
+            "Yource\\LaravelExactOnline\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GreenClaim\\LaravelExactOnline\\Test\\": "tests"
+            "Yource\\LaravelExactOnline\\Test\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "GreenClaim\\LaravelExactOnline\\Providers\\LaravelExactOnlineServiceProvider"
+                "Yource\\LaravelExactOnline\\Providers\\LaravelExactOnlineServiceProvider"
             ],
             "aliases": {
-                "ExactOnline": "GreenClaim\\LaravelExactOnline\\LaravelExactOnlineFacade"
+                "ExactOnline": "Yource\\LaravelExactOnline\\LaravelExactOnlineFacade"
             }
         }
     }
