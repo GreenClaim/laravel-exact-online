@@ -26,7 +26,6 @@
             "GreenClaim\\LaravelExactOnline\\Test\\": "tests"
         }
     },
-    "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [
