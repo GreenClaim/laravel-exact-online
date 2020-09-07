@@ -10,8 +10,10 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "GreenClaim",
-            "email": "technical@yource.com"
+            "name": "Rik Morskate",
+            "email": "technical@yource.com",
+            "homepage": "https://dev.yource.com",
+            "role": "Developer"
         }
     ],
     "autoload": {
