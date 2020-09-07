@@ -16,22 +16,22 @@
     ],
     "autoload": {
         "psr-4": {
-            "PendoNL\\LaravelExactOnline\\": "src/"
+            "GreenClaim\\LaravelExactOnline\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PendoNL\\LaravelExactOnline\\Test\\": "tests"
+            "GreenClaim\\LaravelExactOnline\\Test\\": "tests"
         }
     },
     "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [
-                "PendoNL\\LaravelExactOnline\\Providers\\LaravelExactOnlineServiceProvider"
+                "GreenClaim\\LaravelExactOnline\\Providers\\LaravelExactOnlineServiceProvider"
             ],
             "aliases": {
-                "ExactOnline": "PendoNL\\LaravelExactOnline\\LaravelExactOnlineFacade"
+                "ExactOnline": "GreenClaim\\LaravelExactOnline\\LaravelExactOnlineFacade"
             }
         }
     }
