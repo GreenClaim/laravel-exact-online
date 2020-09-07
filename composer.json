@@ -1,5 +1,5 @@
 {
-    "name": "pendonl/laravel-exact-online",
+    "name": "GreenClaim/laravel-exact-online",
     "description": "Laravel Facade wrapper for Exact Online PHP API",
     "require": {
         "picqer/exact-php-client": "^3.1"
@@ -10,8 +10,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Joshua de Gier",
-            "email": "info@pendo.nl"
+            "name": "GreenClaim",
+            "email": "technical@yource.com"
         }
     ],
     "autoload": {
