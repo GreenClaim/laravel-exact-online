@@ -1,39 +1,29 @@
 {
-    "name": "greenclaim/laravel-exact-online",
-    "description": "Laravel Facade wrapper for Exact Online PHP API",
-    "require": {
-        "picqer/exact-php-client": "^3.1"
-    },
-    "require-dev": {
-      "phpunit/phpunit": "~5.0"
-    },
+    "name": "GreenClaim/exact-online-client-laravel",
+    "description": "A Laravel library to consume the Exact online API",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Rik Morskate",
             "email": "technical@yource.com",
-            "homepage": "https://dev.yource.com",
+            "homepage": "https://yource.com",
             "role": "Developer"
         }
     ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    },
     "autoload": {
         "psr-4": {
-            "Yource\\LaravelExactOnline\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Yource\\LaravelExactOnline\\Test\\": "tests"
+            "Morscate\\NavitiaClient\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Yource\\LaravelExactOnline\\Providers\\LaravelExactOnlineServiceProvider"
-            ],
-            "aliases": {
-                "ExactOnline": "Yource\\LaravelExactOnline\\LaravelExactOnlineFacade"
-            }
+                "Yource\\ExactOnlineClient\\ExactOnlineClientServiceProvider"
+            ]
         }
     }
 }
