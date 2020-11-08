@@ -1,5 +1,5 @@
 {
-    "name": "GreenClaim/exact-online-client-laravel",
+    "name": "greenclaim/exact-online-client-laravel",
     "description": "A Laravel library to consume the Exact online API",
     "type": "library",
     "license": "MIT",
@@ -12,11 +12,11 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^7.0"
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
-            "Morscate\\NavitiaClient\\": "src/"
+            "Yource\\ExactOnlineClient\\": "src/"
         }
     },
     "extra": {

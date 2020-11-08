@@ -3,26 +3,24 @@
 namespace Yource\ExactOnlineClient;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\QueryBuilder\QueryBuilderRequest;
 
 class ExactOnlineClientServiceProvider extends ServiceProvider
 {
-
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
+
+        $this->loadViewsFrom(__DIR__ . '/views', 'exact-online-client');
+
         $this->publishes([
-            __DIR__.'/../config/navitia-client-laravel.php' => config_path('navitia-client-laravel.php'),
+            __DIR__ . '/../config/exact-online-client-laravel.php' => config_path('exact-online-client-laravel.php'),
         ]);
     }
 
     public function register()
     {
-//        $this->app->bind(NavitiaClient::class, function ($app) {
-//            return new NavitiaClient();
-//        });
-
-        $this->app->singleton(NavitiaClient::class, function () {
-            return new NavitiaClient();
+        $this->app->singleton(ExactOnlineClient::class, function () {
+            return new ExactOnlineClient('');
         });
     }
 }

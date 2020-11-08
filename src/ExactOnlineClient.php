@@ -4,62 +4,143 @@ namespace Yource\ExactOnlineClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Collection;
+use Yource\ExactOnlineClient\Resources\ExactOnlineResource;
 
 class ExactOnlineClient
 {
-    private $client;
+    private ExactOnlineAuthorization $authorization;
 
-    /**
-     * The endpoint of the resource.
-     */
-    private $endpoint;
+    private Client $client;
 
-    /**
-     * The query.
-     */
-    public $query = [];
+    private string $baseUri = 'https://start.exactonline.nl';
 
-    public function __construct(string $endpoint)
+    private string $apiUrlPath = '/api/v1';
+
+    private string $division;
+
+    private ExactOnlineResource $resource;
+
+    private string $endpoint;
+
+    private array $where;
+
+    public function __construct(ExactOnlineResource $resource)
     {
-        dd(1);
-        $this->client = new Client([
-            'base_uri' => config('navitia-client-laravel.base_uri')
-        ]);
+        $this->authorization = (new ExactOnlineAuthorization());
 
-        $this->endpoint = $endpoint;
+        $this->division = config('exact-online-client-laravel.division');
+
+        $this->setResource($resource);
+
+        $this->client = new Client([
+            'base_uri' => $this->baseUri,
+        ]);
     }
 
-    /**
-     * Make a Navatia GET request
-     */
-    public function get()
+    public function where(string $field, $value): self
     {
-        try {
-            $response = $this->client->request('GET', $this->endpoint, [
-                'headers' => [
-                    'Authorization' => config('navitia-client-laravel.api_key')
-                ],
-                'query' => $this->query
-            ]);
-        } catch (GuzzleException $exception){
-            dd($exception);
+        $this->where[$field] = $value;
+
+        return $this;
+    }
+
+    public function whereGuid(string $guid): self
+    {
+        $this->setEndpoint("{$this->endpoint}(guid'{{$guid}}')");
+
+        return $this;
+    }
+
+    public function find(string $primaryKey)
+    {
+        $response = $this
+            ->whereGuid($primaryKey)
+            ->get();
+
+        return $response->first();
+    }
+
+    public function first()
+    {
+        $this->where['$top'] = 1;
+
+        return $this->request('GET');
+    }
+
+    public function get(): Collection
+    {
+        $resource = $this->getResource();
+
+        $response = $this->request('GET');
+
+        $resources = collect();
+
+        if (isset($response->d->results)) {
+            foreach ($response->d->results as $item) {
+                $resources->add(new $resource((array) $item));
+            }
+        } else {
+            $resources->add(new $resource((array) $response->d));
         }
 
-        return $response;
+        return $resources;
     }
 
-    /**
-     * Return the resource(s) as an array
-     */
-    public function toArray()
+    public function request(string $method)
     {
-        return json_decode($this->get()->getBody()->getContents());
+        $options = [];
+
+        // If access token is not set or token has expired, acquire new token
+        if (!$this->authorization->hasValidToken()) {
+            $this->authorization->acquireAccessToken();
+        }
+
+        // Add default json headers to the request
+        $options['headers'] = [
+            'Accept'        => 'application/json',
+            'Content-Type'  => 'application/json',
+            'Prefer'        => 'return=representation',
+            'Authorization' => 'Bearer ' . unserialize($this->authorization->getAccessToken()),
+        ];
+
+        if (!empty($this->where)) {
+            $options['query']['$filter='] = implode(',', $this->where);
+        }
+
+        try {
+            $response = $this->client->request(
+                $method,
+                "{$this->apiUrlPath}/{$this->division}/{$this->endpoint}",
+                $options
+            );
+
+            return json_decode($response->getBody()->getContents());
+        } catch (GuzzleException $exception) {
+            dd($exception);
+        }
     }
 
-    public function where(string $field, $value)
+    public function getEndpoint(): string
     {
-        $this->query[$field] = $value;
+        return $this->endpoint;
+    }
 
+    public function setEndpoint($endpoint): self
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
+
+    public function getResource(): ExactOnlineResource
+    {
+        return $this->resource;
+    }
+
+    public function setResource($resource): self
+    {
+        $this->resource = $resource;
+        $this->setEndpoint($resource->getEndpoint());
         return $this;
     }
 }

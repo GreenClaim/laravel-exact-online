@@ -2,7 +2,7 @@
 
 namespace Yource\ExactOnlineClient\Interfaces;
 
-interface ExactOnlineModelInterface
+interface ExactOnlineResourceInterface
 {
     /**
      * The endpoint of the resource
